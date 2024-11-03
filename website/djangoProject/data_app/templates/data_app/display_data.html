@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Data Display</title>
+</head>
+<body>
+    <h1>Real-Time Data Display</h1>
+    <div id="data-value">Waiting for data...</div>
+
+    <script>
+        // Connect to WebSocket server
+        const socket = new WebSocket("ws://localhost:8000/ws/data/");
+
+        // Listen for messages from the server
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById("data-value").innerText = `Value: ${data.value}, Timestamp: ${data.timestamp}`;
+        };
+
+        // Handle connection errors
+        socket.onerror = function(error) {
+            console.error("WebSocket Error: ", error);
+        };
+    </script>
+</body>
+</html>
