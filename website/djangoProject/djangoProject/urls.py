@@ -14,10 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import path
+from data_app.views import weather_data_view
 
 urlpatterns = [
-    path('data_app/', include('data_app.urls')),
+    path('weather/', weather_data_view, name='weather_data'),  # URL for accessing the weather view
 ]

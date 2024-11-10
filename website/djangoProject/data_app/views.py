@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import RealTimeData
 from .serializers import RealTimeDataSerializer
+from django.http import JsonResponse
+from .streamer.read_sensors import fetch_sensor_data
+from .models import WeatherData
 
 class LoRaWANDataView(APIView):
     def post(self, request):
@@ -20,3 +23,14 @@ class LoRaWANDataView(APIView):
 # Make sure display_data is defined
 def display_data(request):
     return render(request, 'data_app/display_data.html')
+
+#def sensor_data_view(request):
+#    data = fetch_sensor_data()
+#    return JsonResponse(data)
+
+def weather_data_view(request):
+    latest_weather = WeatherData.objects.order_by('-timestamp').first()
+    context = {
+        'weather': latest_weather
+    }
+    return render(request, 'weather_template.html', context)
