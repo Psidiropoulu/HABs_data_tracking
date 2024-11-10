@@ -5,9 +5,10 @@ from rest_framework import status
 from .models import RealTimeData
 from .serializers import RealTimeDataSerializer
 from django.http import JsonResponse
-from .streamer.read_sensors import fetch_sensor_data
+#from .streamer.read_sensors import fetch_sensor_data
 from .models import WeatherData
 
+'''
 class LoRaWANDataView(APIView):
     def post(self, request):
         try:
@@ -19,6 +20,7 @@ class LoRaWANDataView(APIView):
             return Response({"error": "Invalid data format"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+'''
     
 # Make sure display_data is defined
 def display_data(request):
@@ -33,4 +35,4 @@ def weather_data_view(request):
     context = {
         'weather': latest_weather
     }
-    return render(request, 'weather_template.html', context)
+    return render(request, 'data_app/weather_template.html', context)
