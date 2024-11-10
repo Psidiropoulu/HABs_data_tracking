@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Data</title>
+</head>
+<body>
+    <h1>Latest Weather Data</h1>
+    {% if weather %}
+        <p><strong>Description:</strong> {{ weather.description }}</p>
+        <p><strong>Temperature:</strong> {{ weather.temperature }}°C</p>
+        <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+        <p><strong>Pressure:</strong> {{ weather.pressure }} hPa</p>
+        <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
+        <p><strong>Wind Direction:</strong> {{ weather.wind_direction }}°</p>
+        <p><strong>Visibility:</strong> {{ weather.visibility }} m</p>
+        <p><strong>Cloud Coverage:</strong> {{ weather.cloud_coverage }}%</p>
+        <p><strong>Sunrise:</strong> {{ weather.sunrise }}</p>
+        <p><strong>Sunset:</strong> {{ weather.sunset }}</p>
+    {% else %}
+        <p>No weather data available.</p>
+    {% endif %}
+</body>
+</html>
