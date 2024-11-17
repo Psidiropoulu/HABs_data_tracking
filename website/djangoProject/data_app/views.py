@@ -7,6 +7,8 @@ from .serializers import RealTimeDataSerializer
 from django.http import JsonResponse
 #from .streamer.read_sensors import fetch_sensor_data
 from .models import WeatherData
+from .streamer.skewT_logP import generate_skew_t_base
+
 
 '''
 class LoRaWANDataView(APIView):
@@ -37,4 +39,17 @@ def weather_data_view(request):
     }
     return render(request, 'data_app/weather_template.html', context)
 
+def skew_t_view(request):
+    # Default (Norfolk) or user-provided latitude and longitude
+    latitude = float(request.GET.get('latitude', 52.63))
+    longitude = float(request.GET.get('longitude', 1.30))
 
+    # Generate the base Skew-T diagram
+    base_image = generate_skew_t_base(latitude, longitude)
+
+    # Render the diagram in the template
+    return render(request, 'data_app/skew_t.html', {
+        'base_image': base_image,
+        'latitude': latitude,
+        'longitude': longitude,
+    })
