@@ -59,7 +59,7 @@ def generate_skew_t_base(latitude, longitude):
     skew.ax.legend(loc='upper right')
     skew.ax.set_ylim(1000, 30)
     skew.ax.set_xlim(-80, 40)
-    plt.title("Skew-T Log-P Diagram (Base Data)")
+    plt.title("Skew-T Log-P Diagram")
     # plt.show()
 
     # Save to base64 for embedding

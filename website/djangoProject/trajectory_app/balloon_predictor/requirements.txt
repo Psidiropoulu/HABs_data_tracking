@@ -1,5 +1,0 @@
-folium
-requests
-flask
-python-dateutil
-matplotlib
