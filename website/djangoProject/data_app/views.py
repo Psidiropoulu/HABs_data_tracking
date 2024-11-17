@@ -36,3 +36,5 @@ def weather_data_view(request):
         'weather': latest_weather
     }
     return render(request, 'data_app/weather_template.html', context)
+
+

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'data_app',
+    'trajectory_app',
 ]
 
 MIDDLEWARE = [
