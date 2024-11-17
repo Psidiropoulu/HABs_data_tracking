@@ -7,6 +7,8 @@ from .serializers import RealTimeDataSerializer
 from django.http import JsonResponse
 #from .streamer.read_sensors import fetch_sensor_data
 from .models import WeatherData
+import json
+
 
 '''
 class LoRaWANDataView(APIView):
@@ -37,4 +39,13 @@ def weather_data_view(request):
     }
     return render(request, 'data_app/weather_template.html', context)
 
+def submit_data_view(APIView):
+    def post(self, request):
+        value = json.loads(request.data)
+        print(value)
+        try:
+            data_instance = RealTimeData.objects.create(**value)
+            data_instance.save()
+        except Exception as e:
+            print(str(e))
 
