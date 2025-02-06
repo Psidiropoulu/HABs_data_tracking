@@ -107,10 +107,11 @@ def create_balloon_altitude_graph(target_ascent_rate=5, weights=(500, 1000, 1500
     return data
 
 
-def create_single_balloon_altitude_graph(balloon_enum: burst_calc.BalloonEnum, payload_weight=2000, ascent_rates=(2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6)):
+def create_single_balloon_altitude_graph(balloon_enum: burst_calc.BalloonEnum, weight, payload_weight=2000, ascent_rates=(2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6)):
     f = Figure()
     fig = f.add_subplot(1, 1, 1)
     balloon_launches = []
+    balloon_names = []
     for target_ascent_rate in ascent_rates:
         ascent_rate, burst_altitude, time_to_burst, neck_lift, launch_volume, launch_litres, launch_cf, warnings = burst_calc.calc_update(balloon_enum, weight, target_ascent_rate=target_ascent_rate)
         launch = LaunchStats(balloon_enum, float(ascent_rate), int(burst_altitude), int(time_to_burst), int(neck_lift), float(launch_volume), int(launch_litres), launch_cf, warnings)
