@@ -28,7 +28,7 @@ def generate_skew_t_base(latitude, longitude):
 
     try:
         response = requests.get(api_url)
-        response.raise_for_status()  # Raises an HTTPError if the response code is 4xx/5xx
+        response.raise_for_status()
         data = response.json()
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from API: {e}")
