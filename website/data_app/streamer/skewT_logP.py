@@ -26,8 +26,13 @@ def generate_skew_t_base(latitude, longitude):
         f"relative_humidity_30hPa"
     )
 
-    response = requests.get(api_url)
-    data = response.json()
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()  # Raises an HTTPError if the response code is 4xx/5xx
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data from API: {e}")
+        return None
 
     # Step 2: Prepare API data
     pressure_levels = [
