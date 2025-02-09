@@ -2,22 +2,16 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import RealTimeData
+from .models import RealTimeData, WeatherData
 from .serializers import RealTimeDataSerializer
 from django.http import JsonResponse
-#from .streamer.read_sensors import fetch_sensor_data
-from .models import WeatherData
-<<<<<<< HEAD:website/djangoProject/data_app/views.py
+import json  # Keep this from the remote branch
+
+# Keep your existing imports
 from .streamer.skewT_logP import generate_skew_t_base
 from .streamer.import_weather_data2 import get_weather
-from django.http import JsonResponse
 import pandas as pd
 from .streamer.trajectory_map import generate_trajectory_map
-from django.http import JsonResponse
-=======
-import json
->>>>>>> origin/main:website/data_app/views.py
-
 
 '''
 class LoRaWANDataView(APIView):
@@ -32,14 +26,12 @@ class LoRaWANDataView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 '''
-    
+
+
 # Make sure display_data is defined
 def display_data(request):
     return render(request, 'data_app/display_data.html')
 
-#def sensor_data_view(request):
-#    data = fetch_sensor_data()
-#    return JsonResponse(data)
 
 def weather_data_view(request):
     latest_weather = WeatherData.objects.order_by('-timestamp').first()
@@ -47,6 +39,7 @@ def weather_data_view(request):
         'weather': latest_weather
     }
     return render(request, 'data_app/weather_template.html', context)
+
 
 def submit_data_view(APIView):
     def post(self, request):
@@ -58,12 +51,13 @@ def submit_data_view(APIView):
         except Exception as e:
             print(str(e))
 
-def weather_view(request):
 
+def weather_view(request):
     latitude = float(request.GET.get('latitude', 53.12))  # Default lat
     longitude = float(request.GET.get('longitude', 1.23))  # Default lon
 
-    summary, icon, temp, precipitation, wind_speed, wind_direction, cloud_cover, df_hourly, df_daily = get_weather(latitude, longitude)
+    summary, icon, temp, precipitation, wind_speed, wind_direction, cloud_cover, df_hourly, df_daily = get_weather(
+        latitude, longitude)
 
     if not df_hourly.empty:
         df_hourly['time'] = pd.to_datetime(df_hourly.index).strftime('%H:%M %p')
