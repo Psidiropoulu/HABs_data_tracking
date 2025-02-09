@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b29467c9-484f-4c3b-a17b-0eed5ebc83b8" name="Changes" comment="" />
+    <list default="true" id="b29467c9-484f-4c3b-a17b-0eed5ebc83b8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/website/djangoProject/trajectory_app/balloon_predictor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/djangoProject/trajectory_app/balloon_predictor/balloon_predictor/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/djangoProject/trajectory_app/balloon_predictor/balloon_predictor/config.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
