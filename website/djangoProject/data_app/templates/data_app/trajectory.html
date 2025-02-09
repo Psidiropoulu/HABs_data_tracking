@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Trajectory Prediction</title>
+</head>
+<body>
+    <h1>Balloon Trajectory Prediction</h1>
+
+    <form method="get">
+        <label for="latitude">Latitude:</label>
+        <input type="text" name="latitude" value="{{ latitude }}" required>
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" name="longitude" value="{{ longitude }}" required>
+
+        <label for="launch_time">Launch Time (UTC):</label>
+        <input type="text" name="launch_time" value="{{ launch_time }}" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% else %}
+        <h2>Predicted Trajectory</h2>
+        <div>{{ map_html|safe }}</div>
+    {% endif %}
+</body>
+</html>

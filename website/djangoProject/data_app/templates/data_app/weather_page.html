@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data</title>
+</head>
+<body>
+    <h1>Weather Data for ({{ latitude }}, {{ longitude }})</h1>
+
+    <form method="get">
+        <label for="latitude">Latitude:</label>
+        <input type="text" name="latitude" value="{{ latitude }}" required>
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" name="longitude" value="{{ longitude }}" required>
+
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <h2>Current Weather</h2>
+    <p>Summary: {{ summary }}</p>
+    <p>Temperature: {{ temperature }} °C</p>
+    <p>Precipitation: {{ precipitation }} mm</p>
+    <p>Wind Speed: {{ wind_speed }} m/s</p>
+    <p>Wind Direction: {{ wind_direction }}</p>
+    <p>Cloud Cover: {{ cloud_cover }}%</p>
+
+    <h2>Hourly Forecast</h2>
+    <table border="1">
+        <tr>
+            <th>Time</th>
+            <th>Temperature (°C)</th>
+            <th>Precipitation (mm)</th>
+            <th>Cloud Cover (%)</th>
+            <th>Wind Speed (m/s)</th>
+        </tr>
+        {% for row in hourly_data %}
+        <tr>
+            <td>{{ row.time }}</td>  <!-- Corrected timestamp format -->
+            <td>{{ row.temperature }}</td>
+            <td>{{ row.precipitation_total }}</td>
+            <td>{{ row.cloud_cover_total }}</td>
+            <td>{{ row.wind_speed }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>7-Day Forecast</h2>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Temperature (°C)</th>
+            <th>Wind (m/s)</th>
+            <th>Summary</th>
+            <th>Icon</th>
+        </tr>
+        {% for row in daily_data %}
+        <tr>
+            <td>{{ row.date }}</td>  <!-- Corrected date format -->
+            <td>{{ row.all_day_temperature_max }}/{{ row.all_day_temperature_min }}</td>
+            <td>{{ row.all_day_wind_speed }} m/s {{ row.all_day_wind_dir }}</td>
+            <td>{{ row.summary }}</td>
+            <td>
+                <img src="https://www.weatherbit.io/static/img/icons/{{ row.icon }}.png" alt="{{ row.icon }}" width="30">
+            </td>  <!-- Display weather icon -->
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

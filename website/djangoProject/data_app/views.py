@@ -8,6 +8,11 @@ from django.http import JsonResponse
 #from .streamer.read_sensors import fetch_sensor_data
 from .models import WeatherData
 from .streamer.skewT_logP import generate_skew_t_base
+from .streamer.import_weather_data2 import get_weather
+from django.http import JsonResponse
+import pandas as pd
+from .streamer.trajectory_map import generate_trajectory_map
+from django.http import JsonResponse
 
 
 '''
@@ -39,6 +44,37 @@ def weather_data_view(request):
     }
     return render(request, 'data_app/weather_template.html', context)
 
+
+def weather_view(request):
+
+    latitude = float(request.GET.get('latitude', 53.12))  # Default lat
+    longitude = float(request.GET.get('longitude', 1.23))  # Default lon
+
+    summary, icon, temp, precipitation, wind_speed, wind_direction, cloud_cover, df_hourly, df_daily = get_weather(latitude, longitude)
+
+    if not df_hourly.empty:
+        df_hourly['time'] = pd.to_datetime(df_hourly.index).strftime('%H:%M %p')
+
+    if not df_daily.empty:
+        df_daily['date'] = pd.to_datetime(df_daily.index).strftime('%Y-%m-%d')
+
+    context = {
+        'latitude': latitude,
+        'longitude': longitude,
+        'summary': summary,
+        'icon': icon,
+        'temperature': temp,
+        'precipitation': precipitation,
+        'wind_speed': wind_speed,
+        'wind_direction': wind_direction,
+        'cloud_cover': cloud_cover,
+        'hourly_data': df_hourly.to_dict(orient="records"),  # Convert to list of dicts
+        'daily_data': df_daily.to_dict(orient="records"),
+    }
+
+    return render(request, 'data_app/weather_page.html', context)
+
+
 def skew_t_view(request):
     # Default (Norfolk) or user-provided latitude and longitude
     latitude = float(request.GET.get('latitude', 52.63))
@@ -53,3 +89,18 @@ def skew_t_view(request):
         'latitude': latitude,
         'longitude': longitude,
     })
+
+
+def trajectory_view(request):
+    """
+    Django view to render the trajectory map.
+    """
+    launch_lat = 52.2135  # Default launch latitude
+    launch_lon = 0.0964  # Default launch longitude
+
+    trajectory_map = generate_trajectory_map(launch_lat, launch_lon)
+
+    if not trajectory_map:
+        print("Map generation failed!")
+
+    return render(request, "data_app/trajectory.html", {"trajectory_map": trajectory_map})
