@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Data Tracking</title>
+    <script>
+        let socket = new WebSocket('ws://' + window.location.host + '/ws/data/');
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById('latitude').innerText = data.latitude;
+            document.getElementById('longitude').innerText = data.longitude;
+            document.getElementById('altitude').innerText = data.altitude;
+            document.getElementById('timestamp').innerText = data.timestamp;
+        };
+    </script>
+</head>
+<body>
+    <h1>Real-Time Data Tracking</h1>
+    <p>Latitude: <span id="latitude">Loading...</span></p>
+    <p>Longitude: <span id="longitude">Loading...</span></p>
+    <p>Altitude: <span id="altitude">Loading...</span></p>
+    <p>Timestamp: <span id="timestamp">Loading...</span></p>
+</body>
+</html>
