@@ -9,6 +9,6 @@ urlpatterns = [
     path('skew_t/', skew_t_view, name='skew_t_view'),
     path('trajectory/', trajectory_view, name='trajectory_view'),
     path('api/addData', submit_data_view, name='submit_data'),  # Keeping both changes
-    path('index/', index, name='index'),
+    path('sensor_data/', index, name='sensor_data'),
     path('', index, name='index'),
 ]

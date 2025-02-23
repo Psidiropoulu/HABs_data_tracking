@@ -29,8 +29,8 @@ class LoRaWANDataView(APIView):
 
 from django.shortcuts import render
 
-def index(request):
-    return render(request, 'data_app/index.html')
+def sensor_data(request):
+    return render(sensor_data, 'data_app/sensor_data.html')
 
 
 # Make sure display_data is defined
