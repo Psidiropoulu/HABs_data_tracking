@@ -183,11 +183,21 @@ void readBME(struct STATE *state)
 			temperature = compensate_temp(temperature);
 			humidity = compensate_humidity(humidity);
             //printf("> (0) Temp: %.2f | Pres: %u | Humi: %.2f\n", temperature/100.0, pressure, humidity/1024.0);
-            
-			state->ExternalTemperature = temperature / 100.0;
-			state->Pressure = pressure;
-			state->Humidity = humidity / 1024.0;
-            
-		
+//
+//			state->ExternalTemperature = temperature / 100.0;
+//			state->Pressure = pressure;
+//			state->Humidity = humidity / 1024.0;
+                // Output as JSON for Python to read
+            json_object *jobj = json_object_new_object();
+            json_object_object_add(jobj, "temperature", json_object_new_double(temperature / 100.0));
+            json_object_object_add(jobj, "pressure", json_object_new_int(pressure));
+            json_object_object_add(jobj, "humidity", json_object_new_double(humidity / 1024.0));
+
+            printf("%s", json_object_to_json_string(jobj));
 	}
+}
+
+int main() {
+    readBME();
+    return 0;
 }
