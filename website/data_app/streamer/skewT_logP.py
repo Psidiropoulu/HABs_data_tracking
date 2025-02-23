@@ -5,9 +5,10 @@ from metpy.units import units
 import numpy as np
 from io import BytesIO
 import base64
+from .bme_reader import read_bme_sensor
+
 
 def generate_skew_t_base(latitude, longitude):
-    """Generate the base Skew-T diagram with API-predicted data."""
     # Step 1: Fetch API data
     api_url = (
         f"https://api.open-meteo.com/v1/forecast?"
@@ -34,7 +35,6 @@ def generate_skew_t_base(latitude, longitude):
         print(f"Error fetching data from API: {e}")
         return None
 
-    # Step 2: Prepare API data
     pressure_levels = [
         1000, 975, 950, 925, 900, 850, 800, 700, 600, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30
     ] * units.hPa
@@ -53,11 +53,30 @@ def generate_skew_t_base(latitude, longitude):
         for t, rh in zip(temperature, relative_humidity)
     ] * units.degC
 
-    # Step 3: Plot the base Skew-T diagram
     fig = plt.figure(figsize=(9, 9))
     skew = SkewT(fig, rotation=45)
-    skew.plot(pressure_levels, temperature, 'r', label="Temperature")
-    skew.plot(pressure_levels, dew_point, 'g', label="Dew Point")
+    skew.plot(pressure_levels, temperature, 'r', label="API Temperature")
+    skew.plot(pressure_levels, dew_point, 'g', label="API Dew Point")
+
+
+
+    # Step 2: fetch sensor data and plot it on the graph
+    sensor_data = read_bme_sensor()
+    if sensor_data:
+        sensor_pressure_hPa = sensor_data["pressure"] / 100
+        sensor_temperature = sensor_data["temperature"]
+        sensor_humidity = sensor_data["humidity"]
+
+        # Compute Dew Point for BME280 data
+        sensor_dew_point = (C * (np.log(sensor_humidity / 100) + (B * sensor_temperature) /
+                                (C + sensor_temperature))) / (B - np.log(sensor_humidity / 100) -
+                                (B * sensor_temperature) / (C + sensor_temperature))
+
+        skew.plot([sensor_pressure_hPa], [sensor_temperature], 'bo', markersize=8, label="Sensor Temp")
+        skew.plot([sensor_pressure_hPa], [sensor_dew_point], 'mo', markersize=8, label="Sensor Dew Point")
+
+
+    # Step 3: Plot the base Skew-T diagram
     skew.plot_dry_adiabats()
     skew.plot_moist_adiabats()
     skew.plot_mixing_lines()
