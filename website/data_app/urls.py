@@ -11,5 +11,5 @@ urlpatterns = [
     path('trajectory/', trajectory_view, name='trajectory_view'),
     path('api/addData', submit_data_view, name='submit_data'),  # Keeping both changes
     path('data/', include('data_app.urls')),
-    path('', index, name='index'),
+    path('index/', index, name='index'),
 ]
