@@ -27,6 +27,11 @@ class LoRaWANDataView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 '''
 
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'data_app/index.html')
+
 
 # Make sure display_data is defined
 def display_data(request):
